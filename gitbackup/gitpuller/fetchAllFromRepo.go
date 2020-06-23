@@ -23,7 +23,11 @@ func fetchAllFromRepo(path string, remoteURL string, auth transport.AuthMethod) 
 		RefSpecs:   refs,
 	})
 	if err != nil {
-		return out, fmt.Errorf("Cannot pull worktree: %v", err)
+		if err == git.NoErrAlreadyUpToDate {
+			out += "Repository already up to date \n"
+		} else {
+			return out, fmt.Errorf("Cannot fetch all from repo: %v", err)
+		}
 	}
 
 	out += formatRepoStatus(repo, remoteURL)
