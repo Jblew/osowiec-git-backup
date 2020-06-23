@@ -6,5 +6,6 @@ set -e
 source ./gitbackup.config.sh
 
 ./generate-config.sh
+./test.sh
 
 go build -o "${DIST_DIR}/gitbackup" *.go
