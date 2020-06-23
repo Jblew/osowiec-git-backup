@@ -11,6 +11,9 @@ func Run(config Config) error {
 	}
 
 	log.Printf("Repositories: %v", app.Repositories)
-
+	err = app.pullRepositoriesSafe()
+	if err != nil {
+		return err
+	}
 	return nil
 }
