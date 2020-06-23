@@ -4,4 +4,5 @@ package app
 type Config struct {
 	RepositoriesListEndpoint string
 	RepositoriesDir          string
+	SSHPrivateKeyPath        string
 }
