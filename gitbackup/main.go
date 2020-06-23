@@ -1,7 +1,7 @@
 package main
 
-import "log"
+import "gitbackup/app"
 
 func main() {
-	log.Println("Hello")
+	app.Run()
 }
