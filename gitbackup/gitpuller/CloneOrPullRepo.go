@@ -1,9 +1,17 @@
 package gitpuller
 
-import "log"
+import (
+	"gitbackup/util"
+)
 
 // CloneOrPullRepo clones or pulls git repo returning an operation log
 func CloneOrPullRepo(path string, remoteURL string) (string, error) {
-	log.Printf("Pulling '%s' to '%s'\n", remoteURL, path)
-	return "", nil
+	exists, err := util.FileExists(path)
+	if err != nil {
+		return "", err
+	}
+	if exists {
+		return pullRepo(path, remoteURL)
+	}
+	return cloneRepo(path, remoteURL)
 }
