@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -20,5 +21,6 @@ func pingMonitoring(url string) error {
 	if err != nil {
 		return fmt.Errorf("Cannot send ping to '%s': %v", url, err)
 	}
+	log.Printf("Monitoring ping sent to '%s'\n", url)
 	return nil
 }
