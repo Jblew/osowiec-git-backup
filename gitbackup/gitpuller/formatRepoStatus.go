@@ -14,6 +14,8 @@ func formatRepoStatus(repo *git.Repository, name string) string {
 	out += formatHead(repo)
 	out += "\n"
 
+	// TODO print status for all remotes
+
 	return out
 }
 

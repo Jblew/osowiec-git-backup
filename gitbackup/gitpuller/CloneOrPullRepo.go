@@ -13,7 +13,7 @@ func CloneOrPullRepo(path string, remoteURL string, auth transport.AuthMethod) (
 		return "", err
 	}
 	if exists {
-		return pullRepo(path, remoteURL, auth)
+		return fetchAllFromRepo(path, remoteURL, auth)
 	}
 	return cloneRepo(path, remoteURL, auth)
 }
