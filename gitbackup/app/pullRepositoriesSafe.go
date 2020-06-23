@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"time"
 )
@@ -21,8 +22,20 @@ func (app *App) pullRepositoriesSafe() error {
 		fullLog += actionLog
 	}
 
-	// TODO publish fullLog to log endpoint
-	// if failures > 0 mark as error
+	total := len(app.Repositories)
+	succeeded := total - failures
+	if failures > 0 {
+		fullLog += "\n\n"
+		fullLog += fmt.Sprintf("[FAILED] failures: %d, succeeeded: %d, total: %d\n", failures, succeeded, total)
+	}
 
+	err := app.sendLog(fullLog)
+	if err != nil {
+		return fmt.Errorf("Cannot send log: %v", err)
+	}
+
+	if failures > 0 {
+		return fmt.Errorf("Pulling repositories done with %d failures out of total %d", failures, total)
+	}
 	return nil
 }
