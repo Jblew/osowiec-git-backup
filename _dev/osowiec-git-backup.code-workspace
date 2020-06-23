@@ -1,0 +1,58 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    },
+    {
+      "path": "../gitbackup"
+    }
+  ],
+  "settings": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "files.insertFinalNewline": true,
+    "editor.rulers": [
+      96,
+      100
+    ],
+    "editor.minimap.maxColumn": 90,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.formatOnSave": true,
+    "editor.renderWhitespace": "all",
+    "editor.fontLigatures": true,
+    "editor.renderControlCharacters": true,
+    "editor.tabCompletion": "on",
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#644100",
+      "titleBar.inactiveBackground": "#3d2800",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "workbench.settings.editor": "json",
+    "workbench.iconTheme": "vscode-icons",
+    "files.autoSave": "onFocusChange",
+    "files.trimTrailingWhitespace": true,
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/*/**": true
+    },
+    "explorer.autoReveal": true,
+    "git.ignoreLimitWarning": true,
+    "breadcrumbs.enabled": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "[json]": {
+      "editor.formatOnSave": false,
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": false
+      }
+    },
+    "files.associations": {
+      "filesystem": "cpp",
+      "chrono": "cpp",
+      "ctime": "cpp",
+      "mutex": "cpp"
+    }
+  }
+}
