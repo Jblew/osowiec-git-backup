@@ -16,10 +16,9 @@ func (app *App) pullRepositoriesSafe() error {
 		}
 		log.Println(actionLog)
 
-		fullLog += "[waiting 3 seconds]"
-		time.Sleep(3 * time.Second)
-
 		fullLog += actionLog
+		fullLog += "[waiting 3 seconds]\n\n\n"
+		time.Sleep(3 * time.Second)
 	}
 
 	total := len(app.Repositories)
@@ -28,6 +27,8 @@ func (app *App) pullRepositoriesSafe() error {
 		fullLog += "\n\n"
 		fullLog += fmt.Sprintf("[FAILED] failures: %d, succeeeded: %d, total: %d\n", failures, succeeded, total)
 	}
+
+	fullLog += fmt.Sprintf("\n\n[SUCCESS] %d synchronized, 0 failures\n", total)
 
 	err := app.sendLog(fullLog)
 	if err != nil {
