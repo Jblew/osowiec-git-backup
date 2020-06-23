@@ -1,6 +1,9 @@
 package app
 
-import "log"
+import (
+	"log"
+	"time"
+)
 
 func (app *App) pullRepositoriesSafe() error {
 	failures := 0
@@ -11,6 +14,10 @@ func (app *App) pullRepositoriesSafe() error {
 			failures++
 		}
 		log.Println(actionLog)
+
+		fullLog += "[waiting 3 seconds]"
+		time.Sleep(3 * time.Second)
+
 		fullLog += actionLog
 	}
 
