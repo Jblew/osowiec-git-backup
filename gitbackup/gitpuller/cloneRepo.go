@@ -2,16 +2,20 @@ package gitpuller
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 )
 
-func cloneRepo(path string, remoteURL string) (string, error) {
+func cloneRepo(path string, remoteURL string, auth transport.AuthMethod) (string, error) {
 	out := fmt.Sprintf("Directory '%s' doesnt exist. Cloning '%s'", path, remoteURL)
 
 	isBare := true
 	repo, err := git.PlainClone(path, isBare, &git.CloneOptions{
-		URL: remoteURL,
+		Progress: os.Stdout,
+		URL:      remoteURL,
+		Auth:     auth,
 	})
 	if err != nil {
 		return out, fmt.Errorf("Cannot clone: %v", err)

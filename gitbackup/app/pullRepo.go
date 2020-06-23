@@ -24,8 +24,8 @@ func (app *App) doPullRepo(remoteURL string) (string, error) {
 		return "", err
 	}
 
-	path := fmt.Sprintf("%s/%s", app.Config.RepositoriesDir, repoName)
-	cloneLog, err := gitpuller.CloneOrPullRepo(path, remoteURL)
+	path := fmt.Sprintf("%s/%s.git", app.Config.RepositoriesDir, repoName)
+	cloneLog, err := gitpuller.CloneOrPullRepo(path, remoteURL, app.Auth)
 	if err != nil {
 		return "", err
 	}
