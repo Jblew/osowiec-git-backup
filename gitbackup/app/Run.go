@@ -20,7 +20,7 @@ func Run(config Config) error {
 
 	pingErr := app.pingMonitoringSuccess()
 	if pingErr != nil {
-		return fmt.Errorf("Pull succeeded but cannot ping monitoring success [%v]", err, pingErr)
+		return fmt.Errorf("Pull succeeded but cannot ping monitoring success [%v]", pingErr)
 	}
 
 	return nil
