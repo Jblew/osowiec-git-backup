@@ -30,7 +30,7 @@ func (app *App) pullRepositoriesSafe() error {
 	}
 
 	if len(failures) > 0 {
-		return fmt.Errorf("Pulling repositories done with %d failures out of total %d", len(failures), total)
+		return fmt.Errorf("Pulling repositories done with %d failures out of total %d", len(failures), len(app.Repositories))
 	}
 	return nil
 }
