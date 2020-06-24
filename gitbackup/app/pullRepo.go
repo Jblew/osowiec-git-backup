@@ -25,7 +25,7 @@ func (app *App) pullRepoRetry(remoteURL string, numOfRetries int) (string, error
 	out := "\n"
 	var lastError error = nil
 	for i := 0; i < numOfRetries; i++ {
-		out, err := app.pullRepoRetry(remoteURL, numOfRetries)
+		out, err := app.doPullRepo(remoteURL)
 		if err != nil {
 			out += fmt.Sprintf("[PULL FAILED](%s) %v\n", remoteURL, err)
 			out += fmt.Sprintf("[PULL FAILED](%s) Retrying %d time in 15s\n", remoteURL, i)
