@@ -9,7 +9,7 @@ import (
 )
 
 func fetchAllFromRepo(path string, remoteURL string, auth transport.AuthMethod) (string, error) {
-	out := fmt.Sprintf("Directory '%s' exists. Fetching '%s'", path, remoteURL)
+	out := fmt.Sprintf("Directory '%s' exists, fetching '%s'\n", path, remoteURL)
 
 	repo, err := git.PlainOpen(path)
 	if err != nil {

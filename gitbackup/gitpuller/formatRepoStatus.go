@@ -2,6 +2,7 @@ package gitpuller
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
@@ -18,28 +19,31 @@ func formatRepoStatus(repo *git.Repository, name string) string {
 }
 
 func formatRemotes(repo *git.Repository) string {
-	out := "  Remotes:\n"
+	out := "Remotes:\n"
 	remotes, err := repo.Remotes()
 	if err != nil {
 		out += fmt.Sprintf("Cannot get remotes: %v\n", err)
 		return out
 	}
 	for _, remote := range remotes {
-		out += fmt.Sprintf("  - %s\n", remote.String())
+		remoteDesc := strings.ReplaceAll(remote.String(), "\n", " / ")
+		out += fmt.Sprintf("   - %s\n", remoteDesc)
 	}
 
 	return out
 }
 
 func formatBranches(repo *git.Repository) string {
-	out := "  Branches:\n"
+	out := "Branches:\n"
 	branchesIter, err := repo.Branches()
 	if err != nil {
 		out += fmt.Sprintf("Cannot get branches: %v\n", err)
 		return out
 	}
 	branchesIter.ForEach(func(branch *plumbing.Reference) error {
+		out += "   - "
 		out += formatRef(repo, branch)
+		out += "\n"
 		return nil
 	})
 
@@ -47,7 +51,7 @@ func formatBranches(repo *git.Repository) string {
 }
 
 func formatHead(repo *git.Repository) string {
-	out := "  Head:\n"
+	out := "Head: "
 
 	headRef, err := repo.Head()
 	if err != nil {
@@ -70,7 +74,8 @@ func formatRef(repo *git.Repository, ref *plumbing.Reference) string {
 		return out
 	}
 
-	out += fmt.Sprintf("  %s", commit.String())
+	commitDesc := strings.ReplaceAll(commit.Message+commit.String(), "\n", " / ")
+	out += commitDesc
 
 	return out
 }
