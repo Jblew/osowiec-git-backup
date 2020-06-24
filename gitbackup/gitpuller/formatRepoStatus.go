@@ -8,14 +8,11 @@ import (
 )
 
 func formatRepoStatus(repo *git.Repository, name string) string {
-	out := fmt.Sprintf("Status of '%s':'n", name)
+	out := fmt.Sprintf("Status of '%s':\n", name)
 
 	out += formatRemotes(repo)
-	out += "\n"
 	out += formatHead(repo)
-	out += "\n"
 	out += formatBranches(repo)
-	out += "\n"
 
 	return out
 }
@@ -65,7 +62,7 @@ func formatHead(repo *git.Repository) string {
 }
 
 func formatRef(repo *git.Repository, ref *plumbing.Reference) string {
-	out := fmt.Sprintf("[%s]", ref.Name().String())
+	out := fmt.Sprintf("[%s] ", ref.Name().String())
 
 	commit, err := repo.CommitObject(ref.Hash())
 	if err != nil {
