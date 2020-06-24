@@ -17,12 +17,15 @@ func (app *App) pullRepositoriesSafe() error {
 		log.Println(actionLog)
 
 		fullLog += actionLog
-		fullLog += "[waiting 3 seconds]\n\n"
-		time.Sleep(3 * time.Second)
+		fullLog += "[waiting 2 seconds]\n\n"
+		time.Sleep(2 * time.Second)
 	}
 
 	fullLog += "\n\n"
-	fullLog += formatFooter(app.Repositories, failures)
+
+	footer := formatFooter(app.Repositories, failures)
+	fullLog += footer
+	log.Println(footer)
 
 	err := app.sendLog(fullLog)
 	if err != nil {
@@ -46,7 +49,7 @@ func formatFooter(repositories []string, failures []error) string {
 			out += fmt.Sprintf("  %v\n", failureErr)
 		}
 		return out
-	} else {
-		return fmt.Sprintf("\n\n[SUCCESS] %d synchronized, 0 failures\n", numTotal)
 	}
+	return fmt.Sprintf("\n\n[SUCCESS] %d synchronized, 0 failures\n", numTotal)
+
 }
