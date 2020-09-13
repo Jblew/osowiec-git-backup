@@ -21,6 +21,7 @@ func fetchAllFromRepo(path string, remoteURL string, auth transport.AuthMethod) 
 		RemoteName: "origin",
 		Auth:       auth,
 		RefSpecs:   refs,
+		Force:      true,
 	})
 	if err != nil {
 		if err == git.NoErrAlreadyUpToDate {
