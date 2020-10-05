@@ -19,6 +19,14 @@ func TestGetRepoNameFromRemoteURL(t *testing.T) {
 		t.Error(err)
 	}
 
+	got, err = GetRepoNameFromRemoteURL("git@github.com:Jblew/BME280_driver.git")
+	if got != "BME280_driver" {
+		t.Errorf("Wrong repo name: %s", got)
+	}
+	if err != nil {
+		t.Error(err)
+	}
+
 	got, err = GetRepoNameFromRemoteURL("git@github.com:Jblew/hi-pine.git")
 	if got != "hi-pine" {
 		t.Errorf("Wrong repo name: %s", got)
