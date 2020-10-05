@@ -3,13 +3,51 @@ package util
 import "testing"
 
 func TestGetRepoNameFromRemoteURL(t *testing.T) {
-	expected := "osowiec-git-backup"
-	got, err := GetRepoNameFromRemoteURL("git@github.com:Jblew/osowiec-git-backup.git")
+	got, err := GetRepoNameFromRemoteURL("git@github.com:Jblew/hipine.git")
+	if got != "hipine" {
+		t.Errorf("Wrong repo name: %s", got)
+	}
 	if err != nil {
-		t.Errorf("TestGetRepoNameFromRemoteURL error %v", err)
+		t.Error(err)
 	}
 
-	if got != expected {
-		t.Errorf("Expected: '%s', got '%s'", expected, got)
+	got, err = GetRepoNameFromRemoteURL("git@github.com:Jblew/hi.pine.git")
+	if got != "hi.pine" {
+		t.Errorf("Wrong repo name: %s", got)
+	}
+	if err != nil {
+		t.Error(err)
+	}
+
+	got, err = GetRepoNameFromRemoteURL("git@github.com:Jblew/hi-pine.git")
+	if got != "hi-pine" {
+		t.Errorf("Wrong repo name: %s", got)
+	}
+	if err != nil {
+		t.Error(err)
+	}
+
+	got, err = GetRepoNameFromRemoteURL("git@github.com:Jblew/hi.st-pine.git")
+	if got != "hi.st-pine" {
+		t.Errorf("Wrong repo name: %s", got)
+	}
+	if err != nil {
+		t.Error(err)
+	}
+
+	got, err = GetRepoNameFromRemoteURL("git@github.com:Jblew/hi.st-pi.ne.git")
+	if got != "hi.st-pi.ne" {
+		t.Errorf("Wrong repo name: %s", got)
+	}
+	if err != nil {
+		t.Error(err)
+	}
+
+	got, err = GetRepoNameFromRemoteURL("git@github.com:Jblew/hi.st-pi.ne")
+	if got != "hi.st-pi.ne" {
+		t.Errorf("Wrong repo name: %s", got)
+	}
+	if err != nil {
+		t.Error(err)
 	}
 }
