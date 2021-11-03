@@ -9,8 +9,7 @@ import (
 )
 
 func formatRepoStatus(repo *git.Repository, name string) string {
-	out := fmt.Sprintf("Status of '%s':\n", name)
-
+	out := ""
 	out += formatRemotes(repo)
 	out += formatHead(repo)
 	out += formatBranches(repo)
@@ -26,7 +25,7 @@ func formatRemotes(repo *git.Repository) string {
 		return out
 	}
 	for _, remote := range remotes {
-		remoteDesc := strings.ReplaceAll(remote.String(), "\n", " / ")
+		remoteDesc := truncate(strings.ReplaceAll(remote.String(), "\n", " / "), 25)
 		out += fmt.Sprintf("   - %s\n", remoteDesc)
 	}
 
@@ -77,5 +76,13 @@ func formatRef(repo *git.Repository, ref *plumbing.Reference) string {
 	commitDesc := strings.ReplaceAll(commit.Message+commit.String(), "\n", " / ")
 	out += commitDesc
 
-	return out
+	return truncate(out, 45)
+}
+
+func truncate(str string, max int) string {
+	runes := []rune(str)
+	if len(runes) <= max {
+		return str
+	}
+	return fmt.Sprintf("%s...", string(runes[:max]))
 }

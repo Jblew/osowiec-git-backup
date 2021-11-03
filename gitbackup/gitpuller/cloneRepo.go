@@ -9,7 +9,7 @@ import (
 )
 
 func cloneRepo(path string, remoteURL string, auth transport.AuthMethod) (string, error) {
-	out := fmt.Sprintf("Directory '%s' doesnt exist, cloning '%s'\n", path, remoteURL)
+	out := fmt.Sprintf("Cloning '%s' into '%s'\n", remoteURL, path)
 
 	isBare := true
 	repo, err := git.PlainClone(path, isBare, &git.CloneOptions{

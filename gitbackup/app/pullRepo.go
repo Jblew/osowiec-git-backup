@@ -8,7 +8,7 @@ import (
 )
 
 func (app *App) pullRepo(remoteURL string) (string, error) {
-	outLog := fmt.Sprintf("# Log for pulling %s\n", remoteURL)
+	outLog := fmt.Sprintf("# Syncing %s\n", remoteURL)
 
 	numOfRetries := 3
 	cloneLog, err := app.pullRepoRetry(remoteURL, numOfRetries)

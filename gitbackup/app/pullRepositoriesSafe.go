@@ -17,7 +17,6 @@ func (app *App) pullRepositoriesSafe() error {
 		log.Println(actionLog)
 
 		fullLog += actionLog
-		fullLog += "[waiting 2 seconds]\n\n"
 		time.Sleep(2 * time.Second)
 	}
 
