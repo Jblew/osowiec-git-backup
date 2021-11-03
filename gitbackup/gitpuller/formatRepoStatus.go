@@ -25,7 +25,7 @@ func formatRemotes(repo *git.Repository) string {
 		return out
 	}
 	for _, remote := range remotes {
-		remoteDesc := truncate(strings.ReplaceAll(remote.String(), "\n", " / "), 25)
+		remoteDesc := truncate(strings.ReplaceAll(remote.String(), "\n", " / "), 230)
 		out += fmt.Sprintf("   - %s\n", remoteDesc)
 	}
 
@@ -76,7 +76,7 @@ func formatRef(repo *git.Repository, ref *plumbing.Reference) string {
 	commitDesc := strings.ReplaceAll(commit.Message+commit.String(), "\n", " / ")
 	out += commitDesc
 
-	return truncate(out, 45)
+	return truncate(out, 230)
 }
 
 func truncate(str string, max int) string {
