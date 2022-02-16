@@ -32,11 +32,6 @@ spec:
             - name: gitbackup-pvc
               persistentVolumeClaim:
                 claimName: gitbackup-pvc
-                accessModes:
-                  - ReadWriteOnce
-                resources:
-                  requests:
-                    storage: 10Gi
             - name: gitbackup-config
               configMap:
                 name: gitbackup-config
@@ -62,3 +57,15 @@ spec:
             resources:
               requests:
                 storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitbackup-pvc
+spec:
+  volumeName: gitbackup-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
