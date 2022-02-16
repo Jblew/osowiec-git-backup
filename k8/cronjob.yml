@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitbackup
+spec:
+  schedule: "15 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: gitbackup
+              image: ghcr.io/jblew/osowiec-git-backup:${IMAGES_VERSION_BASED_ON_GIT_TAG}
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: "REPOSITORIES_LIST_FILE"
+                  value: "/config/repositories.lst"
+                - name: "REPOSITORIES_DIR"
+                  value: "/mnt/repos"
+                - name: "SSH_PRIVATE_KEY_PATH"
+                  value: "/sshkey/github.key"
+              volumeMounts:
+                - name: gitbackup-config
+                  mountPath: /config/
+                - name: ssh-key
+                  mountPath: /sshkey
+                  readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+            - name: gitbackup-config
+              configMap:
+                name: gitbackup-config
+            - name: ssh-key
+              secret:
+                secretName: github-ssh-key
+                items:
+                - key: key
+                  path: github.key
