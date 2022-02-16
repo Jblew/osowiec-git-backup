@@ -48,15 +48,6 @@ spec:
               volumeMounts:
                 - name: gitbackup-pvc
                   mountPath: /data
-      volumeClaimTemplates:
-        - metadata:
-            name: gitbackup-pvc
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 10Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
