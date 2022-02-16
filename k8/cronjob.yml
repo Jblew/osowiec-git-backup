@@ -29,6 +29,14 @@ spec:
                   readOnly: true
           restartPolicy: OnFailure
           volumes:
+            - name: gitbackup-pvc
+              persistentVolumeClaim:
+                claimName: gitbackup-pvc
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 10Gi
             - name: gitbackup-config
               configMap:
                 name: gitbackup-config
