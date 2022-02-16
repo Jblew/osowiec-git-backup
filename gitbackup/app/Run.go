@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"gitbackup/util"
 	"log"
+	"net"
+
+	"golang.org/x/crypto/ssh"
 )
 
 // Run runs the app
@@ -37,6 +40,7 @@ func (app *App) doPull() error {
 		return fmt.Errorf("Cannot load ssh public key from private key file: %v", err)
 	}
 
+	auth.HostKeyCallback = MakeEmptyHostkeyCallback()
 	app.Auth = auth
 
 	log.Printf("Repositories: %v", app.Repositories)
@@ -45,4 +49,12 @@ func (app *App) doPull() error {
 		return fmt.Errorf("Safe repository pull failed: %v", err)
 	}
 	return nil
+}
+
+func MakeEmptyHostkeyCallback() ssh.HostKeyCallback {
+	// allows all known hosts
+	return func(hostname string, remote net.Addr, key ssh.PublicKey) error {
+		return nil
+	}
+
 }
