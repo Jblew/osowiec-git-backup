@@ -34,5 +34,5 @@ spec:
               secret:
                 secretName: github-ssh-key
                 items:
-                - key: key
+                - key: github.key
                   path: github.key
