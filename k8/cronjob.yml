@@ -54,7 +54,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: gitbackup-pvc
 spec:
-  volumeName: gitbackup-pv
+  volumeName: gitbackup-pvc
   accessModes:
     - ReadWriteOnce
   resources:
