@@ -7,6 +7,7 @@ data:
     git@github.com:Jblew/inspector-widget.git
     git@github.com:Jblew/inspector-widget-osowiec.git
     git@github.com:Jblew/septemecclesiae.git
+  more-repositories.lst: |-
     git@github.com:Jblew/osowiec-git-backup.git
     git@github.com:Jblew/inspector-widget-aws-cost.git
     git@github.com:Jblew/gcp-function-write-to-firestore.git
