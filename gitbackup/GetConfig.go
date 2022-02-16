@@ -10,8 +10,8 @@ import (
 func GetConfig() (error, app.Config) {
 	var conf = app.Config{}
 
-	conf.RepositoriesListEndpoint = os.Getenv("REPOSITORIES_LIST_FILE")
-	if conf.RepositoriesListEndpoint == "" {
+	conf.RepositoriesListFile = os.Getenv("REPOSITORIES_LIST_FILE")
+	if conf.RepositoriesListFile == "" {
 		return fmt.Errorf("Missing env REPOSITORIES_LIST_FILE"), app.Config{}
 	}
 

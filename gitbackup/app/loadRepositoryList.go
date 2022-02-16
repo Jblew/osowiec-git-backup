@@ -2,12 +2,13 @@ package app
 
 import (
 	"gitbackup/util"
+	"io/ioutil"
 	"strings"
 )
 
 func (app *App) loadRepositoryList() error {
-	url := app.Config.RepositoriesListEndpoint
-	list, err := doLoadList(url)
+	path := app.Config.RepositoriesListFile
+	list, err := doLoadList(path)
 	if err != nil {
 		return err
 	}
@@ -15,12 +16,12 @@ func (app *App) loadRepositoryList() error {
 	return nil
 }
 
-func doLoadList(url string) ([]string, error) {
-	contents, err := util.ReadAPIToString(url)
+func doLoadList(path string) ([]string, error) {
+	contents, err := ioutil.ReadFile(path)
 	if err != nil {
 		return []string{}, err
 	}
 
-	rawList := strings.Split(contents, "\n")
+	rawList := strings.Split(string(contents), "\n")
 	return util.DeleteEmptyFromStringSlice(rawList), nil
 }
