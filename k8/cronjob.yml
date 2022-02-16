@@ -20,6 +20,8 @@ spec:
                 - name: "SSH_PRIVATE_KEY_PATH"
                   value: "/sshkey/github.key"
               volumeMounts:
+                - name: gitbackup-pvc
+                  mountPath: /mnt/repos
                 - name: gitbackup-config
                   mountPath: /config/
                 - name: ssh-key
@@ -36,3 +38,19 @@ spec:
                 items:
                 - key: github.key
                   path: github.key
+          initContainers:
+            - name: data-permission-fix
+              image: busybox
+              command: ["/bin/chmod", "-R", "777", "/data"]
+              volumeMounts:
+                - name: gitbackup-pvc
+                  mountPath: /data
+      volumeClaimTemplates:
+        - metadata:
+            name: gitbackup-pvc
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
