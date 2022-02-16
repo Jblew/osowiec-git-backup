@@ -3,7 +3,7 @@ name: "apply k8"
 on:
   push:
     branches:
-      - main
+      - master
     tags: ["*"]
 
 jobs:
