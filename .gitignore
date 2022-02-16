@@ -1,2 +1,5 @@
 .DS_Store
 /dist
+/repositories.lst
+/ssh.key
+/repos_dist

@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  gitbackup:
+    build: gitbackup
+    environment:
+      REPOSITORIES_LIST_FILE: /config/repositories.lst
+      REPOSITORIES_DIR: /mnt/repos
+      SSH_PRIVATE_KEY_PATH: /ssh_key
+    volumes:
+      - ./repositories.lst:/config/repositories.lst:ro
+      - ./ssh.key:/ssh_key:ro
+      - ./repos_dist:/mnt/repos:rw
