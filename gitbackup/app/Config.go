@@ -8,4 +8,6 @@ type Config struct {
 	MonitoringEndpointLog         string
 	MonitoringEndpointPingSuccess string
 	MonitoringEndpointPingFailure string
+	PrometheusPushGatewayURL      string
+	PrometheusJobName             string
 }
