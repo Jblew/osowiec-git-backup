@@ -31,6 +31,16 @@ spec:
                   value: "/mnt/repos"
                 - name: "SSH_PRIVATE_KEY_PATH"
                   value: "/sshkey/github.key"
+                - name: "MONITORING_ENDPOINT_PING_SUCCESS"
+                  valueFrom:
+                    secretKeyRef:
+                      name: ping-endpoint
+                      key: success-url
+                - name: "MONITORING_ENDPOINT_PING_FAILURE"
+                  valueFrom:
+                    secretKeyRef:
+                      name: ping-endpoint
+                      key: failure-url
               volumeMounts:
                 - name: gitbackup-pv
                   mountPath: /mnt/repos
