@@ -1,6 +1,6 @@
 # osowiec-git-backup
 
-Automatic CRON based backup
+Backup for multiple git repositories. Multi paradigm. Favourite flavour: SSH+Kubernetes+Prometheus.
 
 Features:
 
@@ -16,6 +16,8 @@ Features:
 10. May push metrics to prometheus pushgateway
 11. Docker image available
 12. Works well with kubernetes (example below)
+
+
 
 ## Use as executable
 
@@ -39,6 +41,8 @@ git@github.com:Jblew/inspector-widget-osowiec.git
 git@github.com:Jblew/osowiec-git-backup.git
 ```
 
+
+
 ## Running with docker using shell
 
 ```sh
@@ -49,6 +53,8 @@ docker run -it \
   ghcr.io/jblew/osowiec-git-backup:1.11.1
 ```
 
+
+
 ## Running with docker using dockerfile
 
 ```dockerfile
@@ -57,6 +63,8 @@ ENV REPOSITORIES_LIST_FILE="./repositories.lst"
 ENV REPOSITORIES_DIR="/mnt/repos"
 ENV SSH_PRIVATE_KEY_PATH="/root/.ssh/id_rsa"
 ```
+
+
 
 ## Running on kubernetes:
 
@@ -149,6 +157,8 @@ data:
     git@github.com:Jblew/osowiec-git-backup.git
 ```
 
+
+
 ## Environment variables
 
 - `REPOSITORIES_LIST_FILE="/config/repositories.lst"` — (**required**) path to file with list of all repositories to back up. 1 line = 1 ssh link to repository (eg. `git@github.com:Jblew/osowiec-git-backup.git`)
@@ -159,6 +169,24 @@ data:
 - `MONITORING_ENDPOINT_PING_FAILURE="https://hc-ping.com/xxx-xxx/fail"` — (optional) Will make HEAD request to the specified endpoint on failure
 - `PROMETHEUS_PUSHGATEWAY_URL="http://pusggateway.namespace/"` — (optional) url of prometheus's pushgateway to send logs to.
 - `PROMETHEUS_PUSHGATEWAY_JOBNAME="osowiec-git-backup"` — (optional) job label for pushgateway to attach to pushed metrics
+
+
+
+## What is osowiec?
+
+You may wonder what is this `osowiec` prefix? Well, the name is both geographical and philosophical.
+
+Osowiec is a small village in the north-eastern Poland. It is **the only** passage through the very wide river of Biebrza on the distance of ~100km. Biebrza is not a big river itself but it is surrounded by multi-killometer wide bogs and morasses. You can pass the river at osowiec or else, you need to go 60km north or south to find passage. Historically this area had crucial millitary importance because millitary troops could only pass at osowiec and elsewhere the river with morasses could not be passed even with the tanks. Tsar and germans made few attempst to build fortifications and roads and the area is full of massive bunkers that are now home to birds and animals.
+
+So I named the tool osowiec, because for at the time of writing it I have been enjoying kayaking at the Biebrza river and was surprised and astounded when I landed in small village and suddenly found myself in a postapocalyptical land of blownup concrete covered with blossoming nature. Thus osowiec is a symbol of `an optimal way` or `backing up the history` :)
+
+Below some photos from my trip to Biebrza and stopping at osowiec:
+
+![Osowiec](doc/img/osowiec.jpg)
+
+> These bunkers are at least 20m high and extend another 20m down the ground with massive rails for artillery guns. All that filled with birds nests, rats, bees and surrounded by species-rich ecosystem of Biebrzan National Park.
+
+
 
 ---
 
