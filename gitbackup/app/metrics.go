@@ -31,7 +31,7 @@ func (app *App) initMetrics() {
 
 func (app *App) pushMetrics() {
 	gathered, _ := prometheus.DefaultGatherer.Gather()
-	fmt.Printf("%+v", gathered)
+	fmt.Printf("Pushing the following metrics: %+v", gathered)
 
 	if app.Config.PrometheusPushGatewayURL == "" {
 		fmt.Printf("PrometheusPushGatewayURL not configured via env (consult Dockerfile). Skipping prometheus metrics pushing")
@@ -40,6 +40,8 @@ func (app *App) pushMetrics() {
 	err := prometheusPush.New(app.Config.PrometheusPushGatewayURL, app.Config.PrometheusJobName).Gatherer(prometheus.DefaultGatherer).Push()
 	if err != nil {
 		fmt.Printf("Error while pushing prometheus metrics: %v", err)
+	} else {
+		fmt.Printf("Successfuly pushed metrics")
 	}
 }
 
