@@ -20,7 +20,7 @@ spec:
                 - name: "SSH_PRIVATE_KEY_PATH"
                   value: "/sshkey/github.key"
               volumeMounts:
-                - name: gitbackup-pvc
+                - name: gitbackup-pv
                   mountPath: /mnt/repos
                 - name: gitbackup-config
                   mountPath: /config/
@@ -29,7 +29,7 @@ spec:
                   readOnly: true
           restartPolicy: OnFailure
           volumes:
-            - name: gitbackup-pvc
+            - name: gitbackup-pv
               persistentVolumeClaim:
                 claimName: gitbackup-pvc
             - name: gitbackup-config
@@ -54,9 +54,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: gitbackup-pvc
 spec:
-  volumeName: gitbackup-pvc
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: 1Gi
