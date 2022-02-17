@@ -41,6 +41,8 @@ spec:
                     secretKeyRef:
                       name: ping-endpoint
                       key: failure-url
+                - name: "PROMETHEUS_PUSHGATEWAY_URL"
+                  value: "http://pushgateway.metrics:9091/metrics"
               volumeMounts:
                 - name: gitbackup-pv
                   mountPath: /mnt/repos
