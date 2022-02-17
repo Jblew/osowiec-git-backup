@@ -12,6 +12,7 @@ func (app *App) loadRepositoryList() error {
 	if err != nil {
 		return err
 	}
+	app.setRepositoriesCountMetric(len(list))
 	app.Repositories = list
 	return nil
 }

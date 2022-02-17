@@ -6,17 +6,31 @@ import (
 	"net/http"
 )
 
+func (app *App) pingMonitoring(err error) {
+	if err != nil {
+		app.pingMonitoringFailure(err)
+	} else {
+		app.pingMonitoringSuccess()
+	}
+}
+
 // pingMonitoringSuccess send success ping to the configured monitoring endpoint
-func (app *App) pingMonitoringSuccess() error {
-	return pingMonitoring(app.Config.MonitoringEndpointPingSuccess)
+func (app *App) pingMonitoringSuccess() {
+	err := doPingMonitoring(app.Config.MonitoringEndpointPingSuccess)
+	if err != nil {
+		fmt.Printf("Pull succeeded but cannot ping monitoring success [%v]", err)
+	}
 }
 
 // pingMonitoringFailure send failure ping to the configured monitoring endpoint
-func (app *App) pingMonitoringFailure() error {
-	return pingMonitoring(app.Config.MonitoringEndpointPingFailure)
+func (app *App) pingMonitoringFailure(appErr error) {
+	pingErr := doPingMonitoring(app.Config.MonitoringEndpointPingFailure)
+	if pingErr != nil {
+		fmt.Printf("Pull failed with [%v] and cannot ping monitoring failure [%v]", appErr, pingErr)
+	}
 }
 
-func pingMonitoring(url string) error {
+func doPingMonitoring(url string) error {
 	if url == "" {
 		log.Printf("Monitoring endpoints for ping not specified. Skipping ping sending")
 		return nil
