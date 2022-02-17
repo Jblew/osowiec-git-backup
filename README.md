@@ -149,6 +149,17 @@ data:
     git@github.com:Jblew/osowiec-git-backup.git
 ```
 
+## Environment variables
+
+- `REPOSITORIES_LIST_FILE="/config/repositories.lst"` — (**required**) path to file with list of all repositories to back up. 1 line = 1 ssh link to repository (eg. `git@github.com:Jblew/osowiec-git-backup.git`)
+- `REPOSITORIES_DIR="/mnt/repos"` — (**required**) directory where headless repositories will be backed up
+- `SSH_PRIVATE_KEY_PATH="/ssh_key"` — (**required**) path to the ssh private key file. Note that you do not need to have ssh installed. Osowiec-git-backup uses golang implementation of ssh.
+- `MONITORING_ENDPOINT_LOG="http://logs-endpoint"` — (optional) if set, osowiec-git-backup will POST all the logs as body of POST request to the specified endpoint
+- `MONITORING_ENDPOINT_PING_SUCCESS="https://hc-ping.com/xxx-xxx"` — (optional) Will make HEAD request to the specified endpoint on success
+- `MONITORING_ENDPOINT_PING_FAILURE="https://hc-ping.com/xxx-xxx/fail"` — (optional) Will make HEAD request to the specified endpoint on failure
+- `PROMETHEUS_PUSHGATEWAY_URL="http://pusggateway.namespace/"` — (optional) url of prometheus's pushgateway to send logs to.
+- `PROMETHEUS_PUSHGATEWAY_JOBNAME="osowiec-git-backup"` — (optional) job label for pushgateway to attach to pushed metrics
+
 ---
 
 Made with ❤️ by [Jędrzej Bogumił Lewandowski](https://jblewandowski.com/).
