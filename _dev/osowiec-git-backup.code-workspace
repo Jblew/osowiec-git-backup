@@ -53,6 +53,9 @@
       "chrono": "cpp",
       "ctime": "cpp",
       "mutex": "cpp"
+    },
+    "vs-kubernetes": {
+      "vs-kubernetes.kubeconfig": "/Users/jedrzejlewandowski/git-repository/osowiec-git-backup/_dev/kubeconfig.yml"
     }
   }
 }
