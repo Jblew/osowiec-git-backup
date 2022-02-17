@@ -11,6 +11,10 @@ import (
 // sendLog sends the log to log endpoint
 func (app *App) sendLog(contents string) error {
 	url := app.Config.MonitoringEndpointLog
+	if url == "" {
+		log.Printf("MonitoringEndpointLog URL not specified, sending logs skipped\n\n")
+		return nil
+	}
 
 	contentBuf := bytes.NewBuffer([]byte(contents))
 	response, err := http.Post(url, "text/plain", contentBuf)
