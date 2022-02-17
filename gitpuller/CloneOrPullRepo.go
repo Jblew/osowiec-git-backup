@@ -1,7 +1,7 @@
 package gitpuller
 
 import (
-	"gitbackup/util"
+	"github.com/jblew/osowiec-git-backup/util"
 
 	"github.com/go-git/go-git/v5/plumbing/transport"
 )

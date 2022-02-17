@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   gitbackup:
-    build: gitbackup
+    build: .
     environment:
       REPOSITORIES_LIST_FILE: /config/repositories.lst
       REPOSITORIES_DIR: /mnt/repos

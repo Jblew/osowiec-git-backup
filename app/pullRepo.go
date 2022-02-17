@@ -2,9 +2,10 @@ package app
 
 import (
 	"fmt"
-	"gitbackup/gitpuller"
-	"gitbackup/util"
 	"time"
+
+	"github.com/jblew/osowiec-git-backup/gitpuller"
+	"github.com/jblew/osowiec-git-backup/util"
 )
 
 func (app *App) pullRepo(remoteURL string) (string, error) {

@@ -2,8 +2,9 @@ package app
 
 import (
 	"fmt"
-	"gitbackup/util"
 	"log"
+
+	"github.com/jblew/osowiec-git-backup/util"
 )
 
 // Run runs the app

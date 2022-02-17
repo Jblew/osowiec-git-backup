@@ -6,7 +6,7 @@ COPY go.mod go.sum /app/
 RUN go mod download
 
 COPY . /app/
-RUN go build -o "/bin/gitbackup" *.go
+RUN go build -o "/bin/osowiec-git-backup" *.go
 RUN go test ./...
 
 
@@ -19,4 +19,4 @@ ENV MONITORING_ENDPOINT_PING_FAILURE=""
 ENV PROMETHEUS_PUSHGATEWAY_URL=""
 ENV PROMETHEUS_PUSHGATEWAY_JOBNAME="osowiec-git-backup"
 
-CMD ["/bin/gitbackup"]
+CMD ["/bin/osowiec-git-backup"]

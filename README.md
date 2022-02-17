@@ -1,7 +1,9 @@
 # osowiec-git-backup
+
 Automatic CRON based backup
 
 Features:
+
 1. Repository list fetched from endpoint (eg. Github raw content)
 2. Pulls all branches (actually fetches)
 3. Clones if repository doesnt exist
@@ -9,21 +11,19 @@ Features:
 5. Authenticates with ssh key (both RSA and ED25519)
 6. Does not require ssh agent installed
 7. Does not require git installed (uses go-git)
-8. Configuration is compiled into binary at build time
-9. Sends logs to configurable log endpoint
-10. Sends success_ping/failure_ping to ping endpoint (eg. healthchecks.io)
+8. Sends logs to configurable log endpoint
+9. Sends success_ping/failure_ping to ping endpoint (eg. healthchecks.io)
+10. May push metrics to prometheus pushgateway
+11. Docker image available
+12. Works well with kubernetes (example below)
 
-## Build
+## Executable usage
 
 ```bash
 # Clone repository
 $ git clone https://github.com/Jblew/osowiec-git-backup.git
 
-# Setup the configuration
-$ vim osowiec-git-backup/project.config.sh
-
-# Build the binary
-$ osowiec-git-backup/build.sh
+go build -o
 
 # Move the binary to your own dir
 $ mv osowiec-git-backup/dist/gitbackup /var/gitbackup
@@ -44,7 +44,6 @@ export MONITORING_ENDPOINT_PING_SUCCESS="https://hc-ping.com/xxx-xxxx-xxxxx"
 export MONITORING_ENDPOINT_PING_FAILURE="https://hc-ping.com/xxx-xxxx-xxxxx/fail"
 ```
 
-***
+---
 
 Made with ❤️ by [Jędrzej Lewandowski](https://jedrzej.lewandowski.doctor/).
-

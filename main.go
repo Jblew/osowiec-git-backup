@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gitbackup/app"
 	"log"
+
+	"github.com/jblew/osowiec-git-backup/app"
 )
 
 func main() {

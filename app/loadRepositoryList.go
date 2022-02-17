@@ -1,9 +1,10 @@
 package app
 
 import (
-	"gitbackup/util"
 	"io/ioutil"
 	"strings"
+
+	"github.com/jblew/osowiec-git-backup/util"
 )
 
 func (app *App) loadRepositoryList() error {
