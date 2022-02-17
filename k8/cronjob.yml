@@ -1,3 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitbackup-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -46,16 +58,6 @@ spec:
               image: busybox
               command: ["/bin/chmod", "-R", "777", "/data"]
               volumeMounts:
-                - name: gitbackup-pvc
+                - name: gitbackup-pv
                   mountPath: /data
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: gitbackup-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+
