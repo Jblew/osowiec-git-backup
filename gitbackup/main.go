@@ -10,8 +10,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Cannot get config: %v", err)
 	}
-
-	err = app.Run(config)
+	application := app.App{Config: config}
+	err = application.Run()
 	if err != nil {
 		log.Fatalf("Cannot run app: %v", err)
 	}
