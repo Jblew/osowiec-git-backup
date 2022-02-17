@@ -17,6 +17,10 @@ func (app *App) pingMonitoringFailure() error {
 }
 
 func pingMonitoring(url string) error {
+	if url == "" {
+		log.Printf("Monitoring endpoints for ping not specified. Skipping ping sending")
+		return nil
+	}
 	_, err := http.Head(url)
 	if err != nil {
 		return fmt.Errorf("Cannot send ping to '%s': %v", url, err)
