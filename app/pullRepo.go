@@ -2,55 +2,54 @@ package app
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/jblew/osowiec-git-backup/gitpuller"
 	"github.com/jblew/osowiec-git-backup/util"
 )
 
-func (app *App) pullRepo(remoteURL string) (string, error) {
-	outLog := fmt.Sprintf("# Syncing %s\n", remoteURL)
+func (app *App) pullRepo(remoteURL string) error {
+	log.Printf("# Syncing %s\n", remoteURL)
 
 	numOfRetries := 3
-	cloneLog, err := app.pullRepoRetry(remoteURL, numOfRetries)
-	outLog += cloneLog
+	err := app.pullRepoRetry(remoteURL, numOfRetries)
 	if err != nil {
-		outLog += fmt.Sprintf("[ERROR] Cannot pull '%s': %v", remoteURL, err)
-		return outLog, fmt.Errorf("Cannot pull '%s': %v", remoteURL, err)
+		return fmt.Errorf("Cannot pull '%s': %v", remoteURL, err)
 	}
-	outLog += "\n"
-	return outLog, nil
+	return nil
 }
 
-func (app *App) pullRepoRetry(remoteURL string, numOfRetries int) (string, error) {
-	out := "\n"
+func (app *App) pullRepoRetry(remoteURL string, numOfRetries int) error {
 	var lastError error = nil
 	for i := 0; i < numOfRetries; i++ {
-		out, err := app.doPullRepo(remoteURL)
-		if err != nil {
-			out += fmt.Sprintf("[PULL FAILED](%s) %v\n", remoteURL, err)
-			out += fmt.Sprintf("[PULL FAILED](%s) Retrying %d time in 15s\n", remoteURL, i)
-			lastError = err
-			time.Sleep(15 * time.Second)
-		} else {
-			return out, nil
+		err := app.measurePullTimeMetric(func() error { return app.doPullRepo(remoteURL) })
+		if err == nil {
+			return nil
 		}
+		log.Printf("[PULL FAILED](%s) %v\n", remoteURL, err)
+		log.Printf("[PULL FAILED](%s) Retrying %d time in 15s\n", remoteURL, i)
+		app.incRetriesMetric()
+		lastError = err
+		time.Sleep(15 * time.Second)
 	}
-	return out, lastError
+	return lastError
 }
 
-func (app *App) doPullRepo(remoteURL string) (string, error) {
+func (app *App) doPullRepo(remoteURL string) error {
 	repoName, err := util.GetRepoNameFromRemoteURL(remoteURL)
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	path := fmt.Sprintf("%s/%s.git", app.Config.RepositoriesDir, repoName)
-	cloneLog, err := gitpuller.CloneOrPullRepo(path, remoteURL, app.Auth)
+	result, err := gitpuller.CloneOrPullRepo(path, remoteURL, app.Auth)
 	if err != nil {
-		return "", err
+		app.incPullsMetricFailure()
+		return err
 	}
-
-	cloneLogIndented := util.IndentMultiline(cloneLog, 2)
-	return cloneLogIndented, nil
+	app.incPullsMetricSuccess(result.Type)
+	app.incBranchesMetric(result.BranchesCount)
+	app.incCommitsMetric(result.CommitCount)
+	return nil
 }

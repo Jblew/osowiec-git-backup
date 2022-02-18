@@ -8,7 +8,7 @@ import (
 	"github.com/go-git/go-git/v5/plumbing"
 )
 
-func formatRepoStatus(repo *git.Repository, name string) string {
+func describeRepo(repo *git.Repository, name string) string {
 	out := ""
 	out += formatRemotes(repo)
 	out += formatHead(repo)

@@ -6,11 +6,17 @@ import (
 	"github.com/go-git/go-git/v5/plumbing/transport"
 )
 
+type PullResult struct {
+	BranchesCount int
+	CommitCount   int
+	Type          string
+}
+
 // CloneOrPullRepo clones or pulls git repo returning an operation log
-func CloneOrPullRepo(path string, remoteURL string, auth transport.AuthMethod) (string, error) {
+func CloneOrPullRepo(path string, remoteURL string, auth transport.AuthMethod) (PullResult, error) {
 	exists, err := util.FileExists(path)
 	if err != nil {
-		return "", err
+		return PullResult{Type: "error"}, err
 	}
 	if exists {
 		return fetchAllFromRepo(path, remoteURL, auth)

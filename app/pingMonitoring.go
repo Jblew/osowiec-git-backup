@@ -18,7 +18,7 @@ func (app *App) pingMonitoring(err error) {
 func (app *App) pingMonitoringSuccess() {
 	err := doPingMonitoring(app.Config.MonitoringEndpointPingSuccess)
 	if err != nil {
-		fmt.Printf("Pull succeeded but cannot ping monitoring success [%v]", err)
+		log.Printf("Pull succeeded but cannot ping monitoring success [%v]", err)
 	}
 }
 
@@ -26,7 +26,7 @@ func (app *App) pingMonitoringSuccess() {
 func (app *App) pingMonitoringFailure(appErr error) {
 	pingErr := doPingMonitoring(app.Config.MonitoringEndpointPingFailure)
 	if pingErr != nil {
-		fmt.Printf("Pull failed with [%v] and cannot ping monitoring failure [%v]", appErr, pingErr)
+		log.Printf("Pull failed with [%v] and cannot ping monitoring failure [%v]", appErr, pingErr)
 	}
 }
 

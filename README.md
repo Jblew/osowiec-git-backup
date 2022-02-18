@@ -11,13 +11,10 @@ Features:
 5. Authenticates with ssh key (both RSA and ED25519)
 6. Does not require ssh agent installed
 7. Does not require git installed (uses go-git)
-8. Sends logs to configurable log endpoint
-9. Sends success_ping/failure_ping to ping endpoint (eg. healthchecks.io)
-10. May push metrics to prometheus pushgateway
-11. Docker image available
-12. Works well with kubernetes (example below)
-
-
+8. Sends success_ping/failure_ping to ping endpoint (eg. healthchecks.io)
+9. May push metrics to prometheus pushgateway
+10. Docker image available
+11. Works well with kubernetes (example below)
 
 ## Use as executable
 
@@ -41,8 +38,6 @@ git@github.com:Jblew/inspector-widget-osowiec.git
 git@github.com:Jblew/osowiec-git-backup.git
 ```
 
-
-
 ## Running with docker using shell
 
 ```sh
@@ -53,8 +48,6 @@ docker run -it \
   ghcr.io/jblew/osowiec-git-backup:1.11.1
 ```
 
-
-
 ## Running with docker using dockerfile
 
 ```dockerfile
@@ -63,8 +56,6 @@ ENV REPOSITORIES_LIST_FILE="./repositories.lst"
 ENV REPOSITORIES_DIR="/mnt/repos"
 ENV SSH_PRIVATE_KEY_PATH="/root/.ssh/id_rsa"
 ```
-
-
 
 ## Running on kubernetes:
 
@@ -157,20 +148,15 @@ data:
     git@github.com:Jblew/osowiec-git-backup.git
 ```
 
-
-
 ## Environment variables
 
 - `REPOSITORIES_LIST_FILE="/config/repositories.lst"` — (**required**) path to file with list of all repositories to back up. 1 line = 1 ssh link to repository (eg. `git@github.com:Jblew/osowiec-git-backup.git`)
 - `REPOSITORIES_DIR="/mnt/repos"` — (**required**) directory where headless repositories will be backed up
 - `SSH_PRIVATE_KEY_PATH="/ssh_key"` — (**required**) path to the ssh private key file. Note that you do not need to have ssh installed. Osowiec-git-backup uses golang implementation of ssh.
-- `MONITORING_ENDPOINT_LOG="http://logs-endpoint"` — (optional) if set, osowiec-git-backup will POST all the logs as body of POST request to the specified endpoint
 - `MONITORING_ENDPOINT_PING_SUCCESS="https://hc-ping.com/xxx-xxx"` — (optional) Will make HEAD request to the specified endpoint on success
 - `MONITORING_ENDPOINT_PING_FAILURE="https://hc-ping.com/xxx-xxx/fail"` — (optional) Will make HEAD request to the specified endpoint on failure
 - `PROMETHEUS_PUSHGATEWAY_URL="http://pusggateway.namespace/"` — (optional) url of prometheus's pushgateway to send logs to.
 - `PROMETHEUS_PUSHGATEWAY_JOBNAME="osowiec-git-backup"` — (optional) job label for pushgateway to attach to pushed metrics
-
-
 
 ## What is osowiec?
 
@@ -185,8 +171,6 @@ Below some photos from my trip to Biebrza and stopping at osowiec:
 ![Osowiec](doc/img/osowiec.jpg)
 
 > These bunkers are at least 20m high and extend another 20m down the ground with massive rails for artillery guns. All that filled with birds nests, rats, bees and surrounded by species-rich ecosystem of Biebrzan National Park.
-
-
 
 ---
 
