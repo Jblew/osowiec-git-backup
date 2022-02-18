@@ -23,7 +23,7 @@ func (app *App) pullRepo(remoteURL string) error {
 func (app *App) pullRepoRetry(remoteURL string, numOfRetries int) error {
 	var lastError error = nil
 	for i := 0; i < numOfRetries; i++ {
-		err := app.doPullRepo(remoteURL)
+		err := app.measurePullTimeMetric(func() error { return app.doPullRepo(remoteURL) })
 		if err == nil {
 			return nil
 		}
@@ -43,9 +43,13 @@ func (app *App) doPullRepo(remoteURL string) error {
 	}
 
 	path := fmt.Sprintf("%s/%s.git", app.Config.RepositoriesDir, repoName)
-	_, err = gitpuller.CloneOrPullRepo(path, remoteURL, app.Auth)
+	result, err := gitpuller.CloneOrPullRepo(path, remoteURL, app.Auth)
 	if err != nil {
+		app.incPullsMetricFailure()
 		return err
 	}
+	app.incPullsMetricSuccess(result.Type)
+	app.incBranchesMetric(result.BranchesCount)
+	app.incCommitsMetric(result.CommitCount)
 	return nil
 }

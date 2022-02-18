@@ -44,11 +44,6 @@ var (
 		Name: "gitbackup_retries_total",
 		Help: "Total number of retries",
 	})
-
-	// TASKTODO histogram of pull time
-	// TASKTODO number of successes and failures
-	// TASKTODO number of branches
-	// TASKTODO total number of commits
 )
 
 func (app *App) initMetrics() {
@@ -99,6 +94,20 @@ func (app *App) incCommitsMetric(count int) {
 
 func (app *App) incRetriesMetric() {
 	retriesCounter.Inc()
+}
+
+func (app *App) incPullsMetricSuccess(typeName string) {
+	pullCounter.With(prometheus.Labels{"status": "success", "type": typeName}).Inc()
+}
+
+func (app *App) incPullsMetricFailure() {
+	pullCounter.With(prometheus.Labels{"status": "failure", "type": "error"}).Inc()
+}
+
+func (app *App) measurePullTimeMetric(f func() error) error {
+	duration, err := util.MeasureDuration(f)
+	pullHistogram.Observe(duration.Seconds())
+	return err
 }
 
 func (app *App) setRepositoriesCountMetric(len int) {
