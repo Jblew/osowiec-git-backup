@@ -1,7 +1,7 @@
 package app
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/jblew/osowiec-git-backup/util"
 	"github.com/prometheus/client_golang/prometheus"
@@ -49,26 +49,25 @@ var (
 	// TASKTODO number of successes and failures
 	// TASKTODO number of branches
 	// TASKTODO total number of commits
-	// TASKTODO total number of retries
 )
 
 func (app *App) initMetrics() {
-	prometheus.MustRegister(runsCounter, timeGauge, repositoryCountGauge)
+	prometheus.MustRegister(runsCounter, timeGauge, repositoryCountGauge, pullHistogram, pullCounter, branchesCountGauge, commitCountGauge, retriesCounter)
 }
 
 func (app *App) pushMetrics() {
 	gathered, _ := prometheus.DefaultGatherer.Gather()
-	fmt.Printf("Pushing the following metrics: %+v", gathered)
+	log.Printf("Pushing the following metrics: %+v", gathered)
 
 	if app.Config.PrometheusPushGatewayURL == "" {
-		fmt.Printf("PrometheusPushGatewayURL not configured via env (consult Dockerfile). Skipping prometheus metrics pushing")
+		log.Printf("PrometheusPushGatewayURL not configured via env (consult Dockerfile). Skipping prometheus metrics pushing")
 		return
 	}
 	err := prometheusPush.New(app.Config.PrometheusPushGatewayURL, app.Config.PrometheusJobName).Gatherer(prometheus.DefaultGatherer).Push()
 	if err != nil {
-		fmt.Printf("Error while pushing prometheus metrics: %v", err)
+		log.Printf("Error while pushing prometheus metrics: %v", err)
 	} else {
-		fmt.Printf("Successfuly pushed metrics")
+		log.Printf("Successfuly pushed metrics")
 	}
 }
 
@@ -96,6 +95,10 @@ func (app *App) incBranchesMetric(count int) {
 
 func (app *App) incCommitsMetric(count int) {
 	commitCountGauge.Add(float64(count))
+}
+
+func (app *App) incRetriesMetric() {
+	retriesCounter.Inc()
 }
 
 func (app *App) setRepositoriesCountMetric(len int) {

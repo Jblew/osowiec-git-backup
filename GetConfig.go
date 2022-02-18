@@ -26,7 +26,6 @@ func GetConfig() (error, app.Config) {
 		return fmt.Errorf("Missing env SSH_PRIVATE_KEY_PATH"), app.Config{}
 	}
 
-	conf.MonitoringEndpointLog = os.Getenv("MONITORING_ENDPOINT_LOG")
 	conf.MonitoringEndpointPingSuccess = os.Getenv("MONITORING_ENDPOINT_PING_SUCCESS")
 	conf.MonitoringEndpointPingFailure = os.Getenv("MONITORING_ENDPOINT_PING_FAILURE")
 	conf.PrometheusPushGatewayURL = os.Getenv("PROMETHEUS_PUSHGATEWAY_URL")
