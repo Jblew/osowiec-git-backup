@@ -1,4 +1,4 @@
-FROM golang:1.17
+FROM golang:1.17 AS builder
 
 WORKDIR /app
 
@@ -6,9 +6,11 @@ COPY go.mod go.sum /app/
 RUN go mod download
 
 COPY . /app/
-RUN go build -o "/bin/osowiec-git-backup" *.go
+RUN CGO_ENABLED=0 go build -o "/bin/osowiec-git-backup" *.go
 RUN go test ./...
 
+FROM alpine:3.15
+COPY --from=builder /bin/osowiec-git-backup /bin/osowiec-git-backup
 
 ENV REPOSITORIES_LIST_FILE="/config/repositories.lst"
 ENV REPOSITORIES_DIR="/mnt/repos"
