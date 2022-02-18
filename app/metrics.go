@@ -2,8 +2,8 @@ package app
 
 import (
 	"fmt"
-	"time"
 
+	"github.com/jblew/osowiec-git-backup/util"
 	"github.com/prometheus/client_golang/prometheus"
 	prometheusPush "github.com/prometheus/client_golang/prometheus/push"
 )
@@ -23,6 +23,33 @@ var (
 		Name: "gitbackup_repository_count",
 		Help: "Number of all repositories",
 	})
+	pullHistogram = prometheus.NewHistogram(prometheus.HistogramOpts{
+		Name:    "gitbackup_pull_time",
+		Help:    "Pull time histogram of all repositories",
+		Buckets: prometheus.LinearBuckets(20, 5, 5),
+	})
+	pullCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: "gitbackup_pulls",
+		Help: "Pull counter",
+	}, []string{"status", "type"})
+	branchesCountGauge = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "gitbackup_branches_total",
+		Help: "Total number of branches",
+	})
+	commitCountGauge = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "gitbackup_commits_total",
+		Help: "Total number of commits",
+	})
+	retriesCounter = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "gitbackup_retries_total",
+		Help: "Total number of retries",
+	})
+
+	// TASKTODO histogram of pull time
+	// TASKTODO number of successes and failures
+	// TASKTODO number of branches
+	// TASKTODO total number of commits
+	// TASKTODO total number of retries
 )
 
 func (app *App) initMetrics() {
@@ -45,14 +72,12 @@ func (app *App) pushMetrics() {
 	}
 }
 
-func (app *App) measureTimeMetric(f func() error) error {
-	start := time.Now()
-	err := f()
-	ellapsedSeconds := time.Since(start)
+func (app *App) measureRunTimeMetric(f func() error) error {
+	duration, err := util.MeasureDuration(f)
 	if err != nil {
-		timeGauge.With(prometheus.Labels{"status": "error"}).Set(ellapsedSeconds.Seconds())
+		timeGauge.With(prometheus.Labels{"status": "error"}).Set(duration.Seconds())
 	} else {
-		timeGauge.With(prometheus.Labels{"status": "success"}).Set(ellapsedSeconds.Seconds())
+		timeGauge.With(prometheus.Labels{"status": "success"}).Set(duration.Seconds())
 	}
 	return err
 }
@@ -63,6 +88,14 @@ func (app *App) incRunsMetric(err error) {
 	} else {
 		runsCounter.With(prometheus.Labels{"status": "failure"}).Inc()
 	}
+}
+
+func (app *App) incBranchesMetric(count int) {
+	branchesCountGauge.Add(float64(count))
+}
+
+func (app *App) incCommitsMetric(count int) {
+	commitCountGauge.Add(float64(count))
 }
 
 func (app *App) setRepositoriesCountMetric(len int) {

@@ -10,7 +10,7 @@ import (
 // Run runs the app
 func (app *App) Run() error {
 	app.initMetrics()
-	err := app.measureTimeMetric(func() error {
+	err := app.measureRunTimeMetric(func() error {
 		return app.doPull()
 	})
 	app.incRunsMetric(err)
